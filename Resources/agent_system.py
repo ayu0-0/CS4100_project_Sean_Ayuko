@@ -19,7 +19,7 @@ from collections import Counter, defaultdict
 # Add the current directory to sys.path to ensure imports work
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(current_dir)
-from prompting_techniques import make_prompt, parse_action
+from Resources.prompting_techniques import make_prompt, parse_action
 
 @dataclass
 class Step:
