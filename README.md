@@ -182,5 +182,7 @@ In this project, we aimed to investigate various ways ML can be used to classify
 
 **References**
 Dataset- https://www.kaggle.com/datasets/andradaolteanu/gtzan-dataset-music-genre-classification/data
+
 Notebook Example - https://www.kaggle.com/code/guritagurih/genreclassification-mobilenetv2
+
 CNN Example to check accuracy - https://www.kaggle.com/code/dapy15/music-genre-classification
