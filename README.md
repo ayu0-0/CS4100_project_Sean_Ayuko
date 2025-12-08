@@ -181,7 +181,6 @@ Some aspects of our results were good and were up to our expectation, while othe
 In this project, we aimed to investigate various ways ML can be used to classify music into different genres. We mainly used 3 modeling approaches: simple logistic regression, an artificial neural network (NN), and a convolutional neural network (CNN). Through experimentation using different data (extracted tabular audio features and spectrograms) comnined with different models, we found that that the NN trained on short (3-second) audio feature segments got the best overall generalization performance, reaching about 85% test accuracy. Models trained on longer segments seemed to do slightly worse (maybe due to smaller datasets). While we believed the CNN model would work well analyzing the spectrograms, it very slightly underperformed potentially due to the small dataset size as well, as other people showed similar results using the same data. Overall, these results provide a great foundation for future exploration using larger datasets, advanced deep learning architectures, and transfer learning,to continue to enhance our music analysis ability.
 
 **References**
-Not done but here are some links
-DAtaset- https://www.kaggle.com/datasets/andradaolteanu/gtzan-dataset-music-genre-classification/data
-Example #1 - https://www.kaggle.com/code/guritagurih/genreclassification-mobilenetv2
-CNN example #2 - https://www.kaggle.com/code/dapy15/music-genre-classification
+Dataset- https://www.kaggle.com/datasets/andradaolteanu/gtzan-dataset-music-genre-classification/data
+Notebook Example - https://www.kaggle.com/code/guritagurih/genreclassification-mobilenetv2
+CNN Example to check accuracy - https://www.kaggle.com/code/dapy15/music-genre-classification
