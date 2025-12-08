@@ -22,109 +22,126 @@ There are plenty of references online of similar ways that we could have gone ab
 
 Overall Methodology:
 
-For Logistic Regression (Did this for 30 second audio clips AND 3 second audio clips):
-    Steps:
-        1. Import and Clean data (filter out unwanted features, standardize, and split into train/test)
-        2. Train Logistic Regression model with train data
-        3. Evaluate model using accuracy and classification report
-        4. Go back and tweak model if necessary
-    Model Architecture:
-        Input: Extracted audio clip features (30 seconds and 3 second seperately trained models)
-        Classifier: Multiclass logistic regression (softmax).
-        Optimization: LBFGS optimizer with L2 regularization.
-        Purpose: Establishes a simple linear baseline.
-    Assumptions:
-        This model assumes that all the features inputted have a linear relationship with the genre / label.
-    Limitations:
-        Can only capture linear relationships.
-    Hardware / Environment:
-        scikit-learn in Python.
-        Run on local CPU
+**For Logistic Regression (Did this for 30 second audio clips AND 3 second audio clips):**
 
-For Neural Network Model (Did this for 30 second audio clips AND 3 second audio clips):
-    Steps:
-        1. Import and Clean data (same as logistic regression cleaning)
-        2. Initialize model architecture and train using train data
-        3. Evaluate model with test data with accuracy and classification reports
-        4. Go back and tweak model if necessary
-    Model Architecture:
-        Input (57)
-        - Linear (57 → 128)
-        - ReLU
-        - Dropout (p = 0.2)
-        - Linear (128 → 64)
-        - ReLU
-        - Linear (64 → 32)
-        - ReLU
-        - Linear (32 → 10)
-        - Softmax output
+Steps:
 
-        Loss Function: CrossEntropy Loss
-        Optimizer: SGD
-    Assumptions:
-        This model assumes that this audio data can be used as a non-linear combination to predict genre
-    Limitations:
-        Higher Overfitting Risk on Smaller Datasets.
-    Hardware / Environment:
-        Pytorch in python
-        Run on local CPU
+1. Import and Clean data (filter out unwanted features, standardize, and split into train/test)
+2. Train Logistic Regression model with train data
+3. Evaluate model using accuracy and classification report
+4. Go back and tweak model if necessary
 
-For our Convolutional Neural Network Model
-    Steps:
-        1. Load spectrogram images and apply preprocessing to all images: resize to 128 × 128, convert to tensor, and normalize.
-        2. Split the full dataset into 80% train and 20% test
-        3. Initialize the CustomCNN model architecture and train using train data
-        4. Compute test accuracy and later generate a classification report from predictions.
-        5. Go back and tweak model if necessary
-    Model Architecture:
-        Input: 3 × 128 × 128 RGB spectrogram image
+Model Architecture:
 
-        Conv Block 1:
-            Conv2d(3 → 32, kernel_size=3, padding=1)
-            BatchNorm2d(32)
-            ReLU
-            MaxPool2d(2×2)
-        Conv Block 2:
-            Conv2d(32 → 64, kernel_size=3, padding=1)
-            BatchNorm2d(64)
-            ReLU
-            MaxPool2d(2×2)
-        Conv Block 3:
-            Conv2d(64 → 128, kernel_size=3, padding=1)
-            BatchNorm2d(128)
-            ReLU
-            MaxPool2d(2×2)
-        Conv Block 4:
-            Conv2d(128 → 256, kernel_size=3, padding=1)
-            BatchNorm2d(256)
-            ReLU
-            MaxPool2d(2×2)
-        Flatten + Classifier:
-            Flatten feature maps: 256 × 8 × 8 → 256 * 8 * 8
-            Dropout(p = 0.6)
-            Linear(256 * 8 * 8 → num_classes)
+* Input: Extracted audio clip features (30 seconds and 3 second seperately trained models)
+
+* Classifier: Multiclass logistic regression (softmax).
+* Optimization: LBFGS optimizer with L2 regularization.
+* Purpose: Establishes a simple linear baseline.
+
+Assumptions:
+    This model assumes that all the features inputted have a linear relationship with the genre / label.
+
+Limitations:
+    Can only capture linear relationships.
+
+Hardware / Environment:
+    scikit-learn in Python.
+    Run on local CPU
+
+**For Neural Network Model (Did this for 30 second audio clips AND 3 second audio clips):**
+
+Steps:
+1. Import and Clean data (same as logistic regression cleaning)
+2. Initialize model architecture and train using train data
+3. Evaluate model with test data with accuracy and classification reports
+4. Go back and tweak model if necessary
+
+Model Architecture:
+
+- Input (57)
+- Linear (57 → 128)
+- ReLU
+- Dropout (p = 0.2)
+- Linear (128 → 64)
+- ReLU
+- Linear (64 → 32)
+- ReLU
+- Linear (32 → 10)
+- Softmax output
+- Loss Function: CrossEntropy Loss
+- Optimizer: SGD
 
 
-        Loss Function: CrossEntropyLoss
-        Optimizer: Adam with learning rate 0.0001 and weight decay 1e-5 (L2 regularization)
+Assumptions:This model assumes that this audio data can be used as a non-linear combination to predict genre
 
-    Assumptions:
-        This CNN assumes that genre-specific information is encoded in time–frequency patterns of the spectrogram images.
-    Limitations:
-        It treats each spectrogram as a static image and therefore does not explicitly model long-term temporal song structure
-    Hardware / Computing Environment:
-        Implemented using PyTorch and Torchvision in Python.
-        CUDA-enabled GPU when available
-        Otherwise Apple MPS GPU backend
-        Otherwise CPU fallback
+Limitations:
+    Higher Overfitting Risk on Smaller Datasets.
+
+Hardware / Environment:
+    Pytorch in python
+    Run on local CPU
+
+**For our Convolutional Neural Network Model**
+
+Steps:
+1. Load spectrogram images and apply preprocessing to all images: resize to 128 × 128, convert to tensor, and normalize.
+2. Split the full dataset into 80% train and 20% test
+3. Initialize the CustomCNN model architecture and train using train data
+4. Compute test accuracy and later generate a classification report from predictions.
+5. Go back and tweak model if necessary
+
+Model Architecture:
+* Input: 3 × 128 × 128 RGB spectrogram image
+
+* Conv Block 1:
+    * Conv2d(3 → 32, kernel_size=3, padding=1)
+    * BatchNorm2d(32)
+    * ReLU
+    * MaxPool2d(2×2)
+* Conv Block 2:
+    * Conv2d(32 → 64, kernel_size=3, padding=1)
+    * BatchNorm2d(64)
+    * ReLU
+    * MaxPool2d(2×2)
+* Conv Block 3:
+    * Conv2d(64 → 128, kernel_size=3, padding=1)
+    * BatchNorm2d(128)
+    * ReLU
+    * MaxPool2d(2×2)
+* Conv Block 4:
+    * Conv2d(128 → 256, kernel_size=3, padding=1)
+    * BatchNorm2d(256)
+    * ReLU
+    * MaxPool2d(2×2)
+* Flatten + Classifier:
+    * Flatten feature maps: 256 × 8 × 8 → 256 * 8 * 8
+    * Dropout(p = 0.6)
+    * Linear(256 * 8 * 8 → num_classes)
+
+
+* Loss Function: CrossEntropyLoss
+    Optimizer: Adam with learning rate 0.0001 and weight decay 1e-5 (L2 regularization)
+
+Assumptions:
+    This CNN assumes that genre-specific information is encoded in time–frequency patterns of the spectrogram images.
+
+Limitations:
+    It treats each spectrogram as a static image and therefore does not explicitly model long-term temporal song structure
+    
+Hardware / Computing Environment:
+    Implemented using PyTorch and Torchvision in Python.
+    CUDA-enabled GPU when available
+    Otherwise Apple MPS GPU backend
+    Otherwise CPU fallback
 
 **Experiments**
 
 Datasets:
 
-    1. Spectrograms: Images that represent frequency content over time of an audio file. Each sample is an RGB image resized to 128 × 128 pixels. Used as input for the Convolutional Neural Network.
+1. Spectrograms: Images that represent frequency content over time of an audio file. Each sample is an RGB image resized to 128 × 128 pixels. Used as input for the Convolutional Neural Network.
 
-    2. Tabular Data: 3-second and 30-second extracted features from an audio file (pre-extracted). Each row represents one song segment with a corresponding genre label. Feature columns include statistical descriptors such as spectral, tempo, MFCC-derived, etc. This data was used with the neural networks and the logistic regression models we created.
+2. Tabular Data: 3-second and 30-second extracted features from an audio file (pre-extracted). Each row represents one song segment with a corresponding genre label. Feature columns include statistical descriptors such as spectral, tempo, MFCC-derived, etc. This data was used with the neural networks and the logistic regression models we created.
 
 **Results**
 
