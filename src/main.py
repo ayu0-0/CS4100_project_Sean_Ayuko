@@ -17,6 +17,9 @@ from cnn import cnn
 import torch
 import torch.nn as nn
 import torch.optim as optim
+from pathlib import Path
+import torch
+import joblib
 
 
 def main():
@@ -44,6 +47,18 @@ def main():
 
             # train model
             model, train_losses, test_accuracies = train_func(X_train, y_train, X_test, y_test)
+
+            # save weights
+            if isinstance(model, torch.nn.Module):
+                save_path = f"saved_models/{model_name}_{file_feature}.pth"
+                torch.save(model.state_dict(), save_path)
+                print(f"Saved PyTorch model to {save_path}")
+
+            else:
+                save_path = f"saved_models/{model_name}_{file_feature}.joblib"
+                joblib.dump(model, save_path)
+                print(f"Saved Scikit-learn model to {save_path}")
+
 
             # evaluate model
             train_acc, test_acc, report = evaluate_model(model, X_train, y_train, X_test, y_test, class_names)
@@ -87,8 +102,8 @@ def main():
     train_loader, test_loader, class_names = get_data_loaders(DATA_DIR, BATCH_SIZE, IMG_SIZE)
 
     model, train_losses, test_accuracies = cnn(train_loader, test_loader, len(class_names),LEARNING_RATE, EPOCHS, DEVICE)
-    
 
+    torch.save(model.state_dict(), "saved_models/cnn.pth")
 
     # evaluate model
     train_acc, test_acc, report = evaluate_model_cnn(model, train_loader, test_loader, class_names, DEVICE)
