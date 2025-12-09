@@ -84,6 +84,8 @@ Hardware / Environment:
 
 **For our Convolutional Neural Network Model**
 
+**WARNING: You need to download the image data from [kaggle](https://www.kaggle.com/datasets/andradaolteanu/gtzan-dataset-music-genre-classification/data). Please put the downloaded zip file in the root directory of this project (at the same level as the `src` folder). It's because the data is too large to be included in the repository.**
+
 Steps:
 1. Load spectrogram images and apply preprocessing to all images: resize to 128 × 128, convert to tensor, and normalize.
 2. Split the full dataset into 80% train and 20% test
@@ -147,10 +149,29 @@ Datasets:
 
 Main Results: Our main results show that the best model out of all 5 models we trained, was the neural network model trained on the extracted data from the 3 second audio clips. As you can see from the table below, this got around a 85% accuracy on the test data. All the other models didn't do terribly, all getting around a 69% - 74% accuracy on the test set. One common trend we saw with the tabular data in particular is the models trained on the 30 second clips did consistently worse at predicted song genre than the models trained on the 3 second audio clip tabular data. Another trend we saw on the tabular data was it struggled much more wiith classifying certain genres than others. For example, in the table below on the right, you can see the classification report for all 10 labels for the NN trained on 30 second audio clip features. In this image you will notice that some accuracies for certain labels is significantly higher than others.
 
-![CNN Training Results](Figures/Final_accuracies.png)
-![NN Classification Report](Figures/classification_report_nn_30_sec.png)
+| Model Name | Train Accuracy | Test Accuracy | F1 Macro |
+| :--- | :--- | :--- | :--- |
+| Logistic Regression(3sec) | 0.7178 | 0.7187 | 0.7142 |
+| Neural Network(3sec) | 0.9257 | **0.8338[BEST]** | 0.8332 |
+| Logistic Regression(30sec) | 0.8650 | 0.6850 | 0.7004 |
+| Neural Network(30sec) | 0.9962 | 0.6600 | 0.6639 |
+| CNN | 0.9987 | 0.715 | 0.7134 |
 
-Supplementary Results - Parameter Choices:
+| Class | Precision | Recall | F1-Score | Support |
+| :--- | :--- | :--- | :--- | :--- |
+| blues | 0.6000 | 0.7500 | 0.6667 | 20 |
+| classical | 0.9167 | 0.8462 | 0.8800 | 13 |
+| country | 0.7600 | 0.7037 | 0.7308 | 27 |
+| disco | 0.7222 | 0.6190 | 0.6667 | 21 |
+| hiphop | 0.6842 | 0.8667 | 0.7647 | 15 |
+| jazz | 0.8182 | 0.8182 | 0.8182 | 22 |
+| metal | 0.8462 | 0.8800 | 0.8627 | 25 |
+| pop | 0.6667 | 0.7692 | 0.7143 | 13 |
+| reggae | 0.5500 | 0.4783 | 0.5116 | 23 |
+| rock | 0.5556 | 0.4762 | 0.5128 | 21 |
+
+Supplementary Results
+ - Parameter Choices:
     1. Logistic Regression:
         - Feature standardization: This was necessary because logistic regression is sensitive to feature scale
         - Optimizer: The LBFGS solver was selected because it is well-suited for multiclass softmax logistic regression.
